@@ -2,6 +2,7 @@ import { StyleSheet, Text, SafeAreaView, Button } from "react-native";
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
+import Map from "./Components/Map";
 
 export default function App() {
   const [pinPoint, setPinPoint] = useState({
@@ -35,48 +36,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}> {`Me on a map! <3`} </Text>
-      <MapView
-        style={styles.map}
-        customMapStyle={require("./mapStyle.json")}
-        showsUserLocation={false}
-        region={region}
-        onUserLocationChange={(event) => {
-          setPinPoint({
-            latitude: event.nativeEvent.coordinate.latitude,
-            longitude: event.nativeEvent.coordinate.longitude,
-          });
-        }}
-      >
-        <Marker
-          coordinate={pinPoint}
-          draggable={true}
-          image={require("./icons/pinPoint.png")}
-        >
-          <Callout>
-            <Text>Yup, I'm here!!!</Text>
-          </Callout>
-        </Marker>
-        <Circle
-          center={pinPoint}
-          radius={300}
-          strokeWidth={2}
-          strokeColor="rgba(255,255,255,1)"
-          fillColor="rgba(255,255,255,0.5)"
-        ></Circle>
-      </MapView>
-      <Button
-        title="Where am I?"
-        color="black"
-        accessibilityLabel="Where am I?"
-        onPress={() => {
-          setRegion({
-            latitude: pinPoint.latitude,
-            longitude: pinPoint.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          });
-        }}
-      />
+      <Map />
     </SafeAreaView>
   );
 }
